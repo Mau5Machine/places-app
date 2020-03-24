@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -17,7 +17,7 @@ import LocationPicker from "../components/LocationPicker";
 const NewPlaceScreen = props => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState();
-
+  const [selectedLocation, setSelectedLocation] = useState();
   const dispatch = useDispatch();
 
   const titleChangeHandler = text => {
@@ -25,13 +25,17 @@ const NewPlaceScreen = props => {
   };
 
   const savePlaceHandler = () => {
-    dispatch(placesActions.addPlace(title, image));
+    dispatch(placesActions.addPlace(title, image, selectedLocation));
     props.navigation.goBack();
   };
 
   const imageTakenHandler = imagePath => {
     setImage(imagePath);
   };
+
+  const locationPickedHandler = useCallback(location => {
+    setSelectedLocation(location);
+  }, []);
 
   return (
     <ScrollView>
@@ -43,7 +47,10 @@ const NewPlaceScreen = props => {
           value={title}
         />
         <ImagePicker onImageTaken={imageTakenHandler} />
-        <LocationPicker />
+        <LocationPicker
+          navigation={props.navigation}
+          onLocationPicked={locationPickedHandler}
+        />
         <Button
           title="Save Place"
           color={Colors.primary}
@@ -72,9 +79,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2
-  },
-  button: {
-    marginTop: 10
   }
 });
 
