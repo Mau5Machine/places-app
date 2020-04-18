@@ -13,16 +13,17 @@ import Colors from "../constants/Colors";
 import MapPreview from "../components/MapPreview";
 
 const LocationPicker = props => {
-  const [pickedLocation, setPickedLocation] = useState();
   const [isFetching, setIsFetching] = useState(false);
+  const [pickedLocation, setPickedLocation] = useState();
 
   const mapPickedLocation = props.navigation.getParam("pickedLocation");
 
   const { onLocationPicked } = props;
+
   useEffect(() => {
     if (mapPickedLocation) {
       setPickedLocation(mapPickedLocation);
-      props.onLocationPicked(mapPickedLocation);
+      onLocationPicked(mapPickedLocation);
     }
   }, [mapPickedLocation, onLocationPicked]);
 
@@ -50,7 +51,6 @@ const LocationPicker = props => {
       const location = await Location.getCurrentPositionAsync({
         timeout: 5000
       });
-      console.log(location);
       setPickedLocation({
         lat: location.coords.latitude,
         lng: location.coords.longitude
@@ -88,14 +88,14 @@ const LocationPicker = props => {
       </MapPreview>
       <View style={styles.actions}>
         <Button
-          title="Pick On Map"
-          colo={Colors.primary}
-          onPress={pickOnMapHandler}
-        />
-        <Button
           title="Get User Location"
           colo={Colors.primary}
           onPress={getLocationHandler}
+        />
+        <Button
+          title="Pick On Map"
+          colo={Colors.primary}
+          onPress={pickOnMapHandler}
         />
       </View>
     </View>

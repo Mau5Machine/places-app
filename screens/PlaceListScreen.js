@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import PlaceItem from "../components/PlaceItem";
 import * as placesActions from "../store/places-actions";
 
-const PlaceListScreen = props => {
-  const places = useSelector(state => state.places.places);
+const PlaceListScreen = (props) => {
+  const places = useSelector((state) => state.places.places);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,16 +17,16 @@ const PlaceListScreen = props => {
   return (
     <FlatList
       data={places}
-      keyExtractor={item => item.id}
-      renderItem={itemData => (
+      keyExtractor={(item) => item.id}
+      renderItem={(itemData) => (
         <PlaceItem
           image={itemData.item.imageUri}
           title={itemData.item.title}
-          address={null}
-          onPress={() => {
+          address={itemData.item.address}
+          onSelect={() => {
             props.navigation.navigate("PlaceDetail", {
               placeTitle: itemData.item.title,
-              placeId: itemData.item.id
+              placeId: itemData.item.id,
             });
           }}
         />
@@ -35,7 +35,7 @@ const PlaceListScreen = props => {
   );
 };
 
-PlaceListScreen.navigationOptions = navData => {
+PlaceListScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "All Places",
     headerRight: (
@@ -48,7 +48,7 @@ PlaceListScreen.navigationOptions = navData => {
           }}
         />
       </HeaderButtons>
-    )
+    ),
   };
 };
 

@@ -18,6 +18,7 @@ const NewPlaceScreen = props => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
+
   const dispatch = useDispatch();
 
   const titleChangeHandler = text => {
@@ -65,6 +66,7 @@ const NewPlaceScreen = props => {
 NewPlaceScreen.navigationOptions = {
   headerTitle: "Add Place"
 };
+
 const styles = StyleSheet.create({
   form: {
     margin: 20
